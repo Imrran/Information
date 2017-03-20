@@ -1,0 +1,84 @@
+﻿@model Cats.Models.CatsInfoVM
+
+@{
+    ViewBag.Title = "GetCatsInfo"; ;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetCatsDetails</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+            border: 1px solid black;
+            width: 40%;
+        }
+
+        th, td {
+            text-align: left;
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+            border: 1px solid black;
+        }
+    </style>
+    <script type="text/javascript">
+        function ButtonClick() {
+            callControllerMethod();
+        }
+        function callControllerMethod() {
+            var response = null;
+            $.ajax({
+                type: "GET",
+                url: "/People/GetCatsDetails",
+                dataType: "json",
+                success: function (data) { receiveResponse(data); },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+        }
+        function receiveResponse(response) {
+            if (response != null) {
+
+                for (var i = 0; i < response.length; i++) {
+                    tr = $('<tr/>');
+                    tr.append("<td>" + response[i].Name + "</td>");
+                    tr.append("<td>" + response[i].Gender + "</td>");
+                    tr.append("<td>" + response[i].PetName + "</td>");
+                    $('table').append(tr);
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <br />
+        <br />
+        <br />
+    </div>
+    <div>
+        <button type="button" onclick="ButtonClick();"> Click To get Cats Info</button>
+    </div><br />
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>PetName</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</body>
+</html>
